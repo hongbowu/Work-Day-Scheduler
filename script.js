@@ -11,8 +11,19 @@ $(function () {
   // useful when saving the description in local storage?
 
   saveBtn.on("click", function (event) {
-    // let chosen = event.target;
+    // add preventdefault
     event.preventDefault();
+    //add for loop for locate the input position.
+    for (let i = 1; i < 10; i++) {
+      let todo = $("#" + i).val();
+      localStorage.setItem("todo", JSON.stringify(todo));
+      let toDos = JSON.parse(localStorage.getItem("todo"));
+      $("#" + i).text(toDos);
+      console.log(toDos);
+      if (!todo) {
+        return;
+      }
+    }
   });
   //
   // TODO: Add code to apply the past, present, or future class to each time
