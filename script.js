@@ -10,21 +10,28 @@ let saveBtn = $(".btn");
 // time-block containing the button that was clicked? How might the id be
 // useful when saving the description in local storage?
 
+let storage = [];
+let todo;
 saveBtn.on("click", function (event) {
   // add preventdefault
   event.preventDefault();
+  storage = [];
   //add for loop for locate the input position.
   for (let i = 1; i < 10; i++) {
-    let todo = $("#" + i).val();
-    localStorage.setItem("todo", JSON.stringify(todo));
-    let toDos = JSON.parse(localStorage.getItem("todo"));
-    $("#" + i).text(toDos);
-    console.log(toDos);
-    if (!todo) {
-      return;
-    }
+    todo = $("#" + i).val();
+
+    let toDos = JSON.parse(localStorage.getItem("storage")) || [];
+    $("#" + i).text(toDos[i - 1]);
+    console.log(storage);
+    console.log(todo);
+    add(todo);
   }
 });
+
+function add(todo) {
+  storage.push(todo);
+  localStorage.setItem("storage", JSON.stringify(storage));
+}
 //
 // TODO: Add code to apply the past, present, or future class to each time
 // block by comparing the id to the current hour. HINTS: How can the id
@@ -35,53 +42,37 @@ saveBtn.on("click", function (event) {
 let currentTime = dayjs();
 function timeCompare() {
   for (let i = 0; i < 10; i++) {
-    if (JSON.stringify($(".hour" + i).text()) === "") {
-      return;
-    } else if (
-      JSON.stringify($(".hour" + i).text()) === "9AM" &&
-      JSON.stringify(currentTime.format("hA")) >= "12PM"
-    ) {
+    let scheduleTime = $(".hour" + i).text();
+    let currentHour = currentTime.format("hA");
+
+    if (scheduleTime === "9AM" && currentHour >= "12PM") {
       $(".hour" + i)
         .parent()
         .attr("class", "row time-block past");
-    } else if (
-      JSON.stringify($(".hour" + i).text()) === "10AM" &&
-      JSON.stringify(currentTime.format("hA")) >= "12PM"
-    ) {
+    } else if (scheduleTime === "10AM" && currentHour >= "12PM") {
       $(".hour" + i)
         .parent()
         .attr("class", "row time-block past");
-    } else if (
-      JSON.stringify($(".hour" + i).text()) === "11AM" &&
-      JSON.stringify(currentTime.format("hA")) >= "12PM"
-    ) {
+    } else if (scheduleTime === "11AM" && currentHour >= "12PM") {
       $(".hour" + i)
         .parent()
         .attr("class", "row time-block past");
-    } else if (
-      JSON.stringify($(".hour" + i).text()) <
-      JSON.stringify(currentTime.format("hA"))
-    ) {
-      $(".hour" + i)
-        .parent()
-        .attr("class", "row time-block past");
-    } else if (
-      JSON.stringify($(".hour" + i).text()) ===
-      JSON.stringify(currentTime.format("hA"))
-    ) {
-      $(".hour" + i)
-        .parent()
-        .attr("class", "row time-block present");
-    } else {
+    } else if (scheduleTime > currentHour) {
       $(".hour" + i)
         .parent()
         .attr("class", "row time-block future");
+    } else if (scheduleTime === currentHour) {
+      $(".hour" + i)
+        .parent()
+        .attr("class", "row time-block present");
+    } else if (scheduleTime < currentHour) {
+      $(".hour" + i)
+        .parent()
+        .attr("class", "row time-block past");
     }
   }
 }
 timeCompare();
-console.log(currentTime.format("hA"));
-console.log("9am" === "9AM");
 // TODO: Add code to get any user input that was saved in localStorage and set
 // the values of the corresponding textarea elements. HINT: How can the id
 // attribute of each time-block be used to do this?
