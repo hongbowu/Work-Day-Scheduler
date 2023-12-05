@@ -10,28 +10,34 @@ let saveBtn = $(".btn");
 // time-block containing the button that was clicked? How might the id be
 // useful when saving the description in local storage?
 
+// $(document).ready(function () {
+//   loadData();
+// });
 let storage = [];
 let todo;
-saveBtn.on("click", function (event) {
-  // add preventdefault
-  event.preventDefault();
-  storage = [];
-  //add for loop for locate the input position.
-  for (let i = 1; i < 10; i++) {
-    todo = $("#" + i).val();
-
-    let toDos = JSON.parse(localStorage.getItem("storage")) || [];
-    $("#" + i).text(toDos[i - 1]);
-    console.log(storage);
-    console.log(todo);
-    add(todo);
-  }
-});
-
 function add(todo) {
   storage.push(todo);
   localStorage.setItem("storage", JSON.stringify(storage));
 }
+function loadData() {
+  for (let i = 1; i < 10; i++) {
+    let toDos = JSON.parse(localStorage.getItem("storage")) || [];
+    $("#" + i).text(toDos[i - 1]);
+  }
+}
+saveBtn.on("click", function (event) {
+  // add preventdefault
+  event.preventDefault();
+  storage = [];
+
+  //add for loop for locate the input position.
+  for (let i = 1; i < 10; i++) {
+    todo = $("#" + i).val();
+    add(todo);
+  }
+  loadData();
+});
+loadData();
 //
 // TODO: Add code to apply the past, present, or future class to each time
 // block by comparing the id to the current hour. HINTS: How can the id
@@ -83,4 +89,3 @@ function timeRuns() {
   $("#currentDay").text(currentTime.format("dddd, MMMM D, YYYY h:mm A"));
 }
 setInterval(timeRuns, 1000);
-console.log(JSON.stringify($(".hour1").text()));
