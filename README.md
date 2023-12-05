@@ -19,6 +19,9 @@ https://hongbowu.github.io/Work-Day-Scheduler/
 
 ## Photos
 
+![Alt text](<2023-12-04 230232.png>)
+![Alt text](<2023-12-04 230248.png>)
+
 ## Feedback:
 
 If you have any suggestions or feedback, please feel free to reach out to me via email at [your.email@example.com]. Your input is highly valuable, and I welcome you to use the application. Thank you for your support!

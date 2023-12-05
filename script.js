@@ -10,9 +10,6 @@ let saveBtn = $(".btn");
 // time-block containing the button that was clicked? How might the id be
 // useful when saving the description in local storage?
 
-// $(document).ready(function () {
-//   loadData();
-// });
 let storage = [];
 let todo;
 function add(todo) {
@@ -51,15 +48,15 @@ function timeCompare() {
     let scheduleTime = $(".hour" + i).text();
     let currentHour = currentTime.format("hA");
 
-    if (scheduleTime === "9AM" && currentHour >= "12PM") {
+    if (scheduleTime === "9AM" && currentHour > "12PM") {
       $(".hour" + i)
         .parent()
         .attr("class", "row time-block past");
-    } else if (scheduleTime === "10AM" && currentHour >= "12PM") {
+    } else if (scheduleTime === "10AM" && currentHour > "12PM") {
       $(".hour" + i)
         .parent()
         .attr("class", "row time-block past");
-    } else if (scheduleTime === "11AM" && currentHour >= "12PM") {
+    } else if (scheduleTime === "11AM" && currentHour > "12PM") {
       $(".hour" + i)
         .parent()
         .attr("class", "row time-block past");
